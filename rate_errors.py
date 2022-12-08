@@ -16,6 +16,9 @@
 #   ratios of the columns indicated in col array
 #   Tip: Copy and paste the output file in calc to give the format
 #
+# Ramiro Rebolledo Cormack
+# https://github.com/ramrebol/
+#
 # Created: 17/07/2017
 # Last edition: 08/12/2022
 #
