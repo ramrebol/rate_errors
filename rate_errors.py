@@ -17,12 +17,14 @@
 #   Tip: Copy and paste the output file in calc to give the format
 #
 # Ramiro Rebolledo Cormack
-# https://github.com/ramrebol/
+# https://github.com/ramrebol
 #
-# Created: 17/07/2017
-# Last edition: 08/12/2022
+# Created     : 17/07/2017
+# Last edition: 11/01/2022
 #
 import numpy as np
+np.set_printoptions(precision=4,linewidth=400)
+
 
 fin = input('Input filename with the error table:\n(ex: example_in.dat)\n')
 #fin = 'example_in.dat'
@@ -33,6 +35,7 @@ Tin     = np.loadtxt(fin,comments='#',skiprows=1)
 col = input('Columns for which the rate is calculated: \n(ex:  2 3 4):\n')
 col = [int(i) for i in col.split(' ')]
 #col = [2,3]
+#col = [2,3,4,5,6]
 col = np.array(col)
 
 Taux = np.log( Tin[:,col-1] )
@@ -64,4 +67,12 @@ print('\n')
 print('>  It was printed' , fout , 'with the output')
 print('>  Remark: nan in the first row it is ok')
 print('>  Tip   : Copy and paste the output file in calc to give the format')
+print('')
 
+print('Errors and rate:') # printing errors and rates
+print(Tout)
+
+np.set_printoptions(suppress=True)
+print('\nJust rates:')    # printing just rates
+rcol = col+range(1,col.size+1)-1
+print(Tout[:,rcol])
