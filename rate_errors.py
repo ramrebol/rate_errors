@@ -19,23 +19,25 @@
 # Ramiro Rebolledo Cormack
 # https://github.com/ramrebol
 #
-# Created     : 17/07/2017
-# Last edition: 11/01/2022
+# Created: 17/07/2017
+# Last edition: 27/12/2023
 #
 import numpy as np
-np.set_printoptions(precision=4,linewidth=400)
 
+d_rat = '4' # number of decimals in rate of convergence
+d_err = '4' # number of decimals in errors (scientific notation)
 
 fin = input('Input filename with the error table:\n(ex: example_in.dat)\n')
 #fin = 'example_in.dat'
+#fin = 'sol_an1_2D_error_table.dat'
+#fin = 'sol_an2_P1-nu1-2D_error_table.dat'
 fout= 'rate_'+fin # Output file name
 
-Tin     = np.loadtxt(fin,comments='#',skiprows=1)
+Tin     = np.loadtxt(fin,comments=['#','h'],skiprows=1)
 #Tin     = np.loadtxt('example_in.dat')
-col = input('Columns for which the rate is calculated: \n(ex:  2 3 4):\n')
-col = [int(i) for i in col.split(' ')]
-#col = [2,3]
-#col = [2,3,4,5,6]
+#col = input('Columns for which the rate is calculated: \n(ex:  2 3 4):\n')
+col = [2,3,4,5,6]
+#col = [int(i) for i in col.split(' ')]
 col = np.array(col)
 
 Taux = np.log( Tin[:,col-1] )
@@ -62,17 +64,18 @@ for j in range( len(Tin[1,:]) ):
 #print('Rate error table')
 #print(' ----------------')
 #print(Tout)
-np.savetxt(fout, Tout)
+
+formatos = ['%.'+d_err+'e' for i in range(ncol)]
+aux=0
+for i in col:
+    j=i+aux
+    formatos[j]='%.'+d_rat+'f'
+    aux+=1
+
+print(Oaux)
+np.savetxt(fout, Tout, fmt=formatos, delimiter=' & ', newline='\\\ \hline\n')
 print('\n')
 print('>  It was printed' , fout , 'with the output')
 print('>  Remark: nan in the first row it is ok')
 print('>  Tip   : Copy and paste the output file in calc to give the format')
-print('')
 
-print('Errors and rate:') # printing errors and rates
-print(Tout)
-
-np.set_printoptions(suppress=True)
-print('\nJust rates:')    # printing just rates
-rcol = col+range(1,col.size+1)-1
-print(Tout[:,rcol])
